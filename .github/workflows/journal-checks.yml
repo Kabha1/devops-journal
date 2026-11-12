@@ -1,0 +1,43 @@
+name: Journal checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why are you running this check?"
+        required: true
+        type: string
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v5
+      - name: Print the reason
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          REASON: ${{ inputs.reason }}
+        run: echo "Reason: $REASON"
+      - name: README.md exists
+        run: test -f README.md
+      - name: No empty .md files
+        run: |
+          failed=0
+          for file in $(find . -name "*.md" -not -path "./.git/*"); do
+            if [ ! -s "$file" ]; then
+              echo "Empty file: $file"
+              failed=1
+            fi
+          done
+          exit $failed
+      - name: No .env files committed
+        run: |
+          if git ls-files | grep -E '\.env$'; then
+            echo "A .env file was committed"
+            exit 1
+          fi
+          echo "No .env files found"
