@@ -1,0 +1,4 @@
+# Commands use placeholders like <file> and <id>, which look like HTML tags.
+MD033: false
+# The README starts with the CI status badge, above the title.
+MD041: false

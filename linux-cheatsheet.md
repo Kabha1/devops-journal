@@ -1,3 +1,5 @@
+# Linux Cheatsheet
+
 1. pwd — Displays the current working directory path.
 2. ls — Lists files and folders in the current directory.
 3. cd — Navigates to a different directory.

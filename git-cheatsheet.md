@@ -1,3 +1,5 @@
+# Git Cheatsheet
+
 1- git branch: list branches, the * shows where I am
 
 2- git switch -c feature/x: create a branch and move to it
